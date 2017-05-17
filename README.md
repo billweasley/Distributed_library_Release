@@ -52,7 +52,6 @@ Additionally, if you are using Oracle JDK rather than Open JDK, please install J
 + Lightbend and Play framwork  
 + Edulify.com and their IP-geolocation plugin  
 + freegeoip.net  
-+ 
 
 Note: The project is still under development so many issues exist and some of code has not been integrated.  
   
