@@ -1,0 +1,261 @@
+<html>
+<head>
+      <title>BookSwop | free book swap platform</title>
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
+
+    <script src="@routes.Assets.versioned("javascripts/jquery.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/modernizr.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/isotope.pkgd.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.backstretch.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.appear.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/template.js")" type="text/javascript"></script>
+    <style type="text/css">
+        body{
+            background:url("/assets/images/timg.jpg");
+            position:absolute; 
+            top:0; 
+            left:0; 
+            height:100%; 
+            width:100%; 
+            background-position: center 0; 
+            background-repeat: no-repeat; 
+            background-attachment:fixed; 
+            background-size: cover; 
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            zoom: 1; 
+            min-width: 600px;
+            min-height: 700px;
+        }
+    </style>    
+</head>
+
+<body nonce=cXdhZGFkemNhd2R3ZA== >
+    <header class="header fixed clearfix navbar navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="header-left clearfix"><a href="@routes.Application.main">
+                        <div class="logo smooth-scroll">
+                          <div id="logo"><img src="@routes.Assets.versioned("images/logo.png")" style="max-width:60px;height: auto;" nonce=cXdhZGFkemNhd2R3ZA== alt="BookSwop"></div>
+                        </div>
+                        <div class="site-name-and-slogan smooth-scroll">
+                          <div class="site-name" style="color: white">BookSwop</div>
+                          <div class="site-slogan" style="color: white">Free Book Swap Platform</div>
+                        </div>
+                    </a></div>
+                </div>
+                <div class="col-md-8">
+                    <div class="header-right clearfix">
+                        <div class="main-navigation animated">
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <div onclick="jumpp()" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Collect the nav links, forms, and other content for toggling -->
+                                    <div class="collapse navbar-collapse scrollspy smooth-scroll" id="navbar-collapse-1">
+                                        <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="@routes.Application.main">Home</a></li>
+                                            <li class="active"><a  href="#">Log in</a></li>
+                                            <li><a href="@routes.Application.signUp">Sign up</a></li>
+                                            <li><a href="@routes.Application.aboutUs">About us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                            <!-- navbar end -->
+                        </div>
+                        <!-- main-navigation end -->
+                    </div>
+                    <!-- header-right end -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="banner" class="banner">
+
+
+    <div class="banner-caption-login">
+    <div id="space"></div>
+        <h1>Login</h1>
+        <form>
+            <span id="prompt" style="display:none;font-size: 14;"></span>
+        <table id="login_table" nonce=cXdhZGFkemNhd2R3ZA== style="display:none;">
+            <tr><td><input nonce=cXdhZGFkemNhd2R3ZA== style="width:270px" type="text" id="email" name="email" class="email" placeholder="Email"> .ac.uk </td>
+              <td id="emailout" nonce=cXdhZGFkemNhd2R3ZA== style="color: #c00;"></td>
+            </tr>
+            <tr><td><input nonce=cXdhZGFkemNhd2R3ZA== style="width:270px" type="password" id="password" name="password" class="password" placeholder="Password"></td>
+              <td id="passwordout" nonce=cXdhZGFkemNhd2R3ZA== style="color: #c00;"></td>
+            </tr>
+            <tr><td nonce=cXdhZGFkemNhd2R3ZA== style="text-align: right; font-size: 14; color: #46a3ff"><a href="@routes.Application.forgetPassword">Forgot password?</a></td></tr>
+        </table>
+        <button nonce=cXdhZGFkemNhd2R3ZA== style="width: 200px; outline: none;display:none;" type="submit" id="submit_button" >Log in</button>
+        <div id="been_table" nonce=cXdhZGFkemNhd2R3ZA== style="display:none;">
+          <button nonce=cXdhZGFkemNhd2R3ZA== style="width: 200px; outline: none;" type="button" id="turn_button">Turn to my home page</button>
+          <button nonce=cXdhZGFkemNhd2R3ZA== style="width: 200px; outline: none;" type="button" id="clear_button">Use another account</button>
+        </div>
+        </form>
+    </div>
+    </div>
+    <script type="text/javascript" nonce=cXdhZGFkemNhd2R3ZA==>
+    $(document).ready(function(){
+      var validUntil = localStorage.getItem("_valid");
+      var current = $.now();
+      if(localStorage.getItem("_uid")&&localStorage.getItem("_token")&&localStorage.getItem("_valid")&&localStorage.getItem("_email")&&(current<validUntil)){
+          $.ajax({
+            headers:{
+                'X-AUTH-TOKEN' : localStorage.getItem("_token")
+            },
+            url:"/v1/users/check?uid="+localStorage.getItem("_uid"),
+            contentType: "application/json;charset=utf-8",
+            success:function(){
+              $("#prompt").css('color', 'white');
+              $("#prompt").html("<br>You have loggined as " + localStorage.getItem("_email")+".");
+              $("#prompt").css('display', '');
+              $("#been_table").css('display', '');
+              $('#submit_button').css('display', 'none');
+              $("#login_table").css('display', 'none');
+
+            },
+            error:function(data){
+              $("#login_table").css('display', '');
+              $('#submit_button').css('display', '');
+              $("#been_table").css('display', 'none');
+            }
+          });
+      }else{
+          $("#login_table").css('display', '');
+          $('#submit_button').css('display', '');
+          $("#been_table").css('display', 'none');
+      }
+    });
+
+    var passwordTrue = false;
+    var emailTrue = false;
+    $("form").submit(function(event){
+      event.preventDefault();
+       $("#prompt").css('display', 'none');
+       $("#prompt").css('color', 'white');
+       checkPassword(document.getElementById('password'));
+       checkEmail(document.getElementById('email'));
+      if(passwordTrue==true&&emailTrue==true){
+          var jsonData = {
+            "email": $("#email").val() + '.ac.uk',
+            "password":$("#password").val()
+          };
+          $.ajax({
+            type: "POST",
+            url:"/v1/users/token",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(jsonData),
+            processData: false,
+            success:function(data){
+              var res = jQuery.parseJSON(JSON.stringify(data));
+              localStorage.setItem("_uid",res.id);
+              localStorage.setItem("_token",res.uuid);
+              localStorage.setItem("_valid",res.valid_until);
+              localStorage.setItem("_name",res.name);
+              localStorage.setItem("_location",res.location);
+              localStorage.setItem("_email",res.email);
+              localStorage.setItem("_credit",res.credit);
+              localStorage.setItem("_day",res.day);
+              localStorage.setItem("_year",res.year);
+              localStorage.setItem("_month",res.month);
+              if(res.active==1){
+                setTimeout("javascript:location.href='/profile'", 100);
+              }else{
+                setTimeout("javascript:location.href='/welcome'", 100);
+              }
+            },
+            error:function(data){
+               $("#prompt").css('color', 'red');
+               $("#prompt").html("<br> Error from server: "+ data.responseText);
+               $("#prompt").css('display', '');
+             }
+          });
+        }else{
+           $("#prompt").css('color', 'red');
+           $("#prompt").html("<br> Please check your inputs.");
+           $("#prompt").css('display', '');
+        }
+
+    });
+    $("#clear_button").click(function(e){
+       window.localStorage.removeItem('_uid');
+       window.localStorage.removeItem('_token');
+       window.localStorage.removeItem('_valid');
+       window.localStorage.removeItem('_name');
+       window.localStorage.removeItem("_location");
+       window.localStorage.removeItem("_email");
+      $("#prompt").css('display', 'none');
+      $("#login_table").css('display', '');
+      $('#submit_button').css('display', '');
+      $("#been_table").css('display','none');
+    });
+    $("#turn_button").click(function(e){
+      setTimeout("javascript:location.href='/profile'", 100);
+    });
+    function checkPassword(passwordTxt)
+    {
+    	if(passwordTxt.value==""){
+        passwordTrue = false;
+    	}
+    	else if(passwordTxt.value.length<8){
+        passwordTrue = false;
+    	}
+    	else if(passwordTxt.value.length>18){
+        passwordTrue = false;
+    	}
+    	else {
+    			passwordTrue = true;
+    	}
+    }
+    function isEmail(str) {
+      var pattern = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*$/;
+    	return pattern.test(str);
+    };
+
+    function checkEmail(emailTxt)
+    {
+    	 var email_show = document.getElementById('emailout');
+    	if(emailTxt.value=="" || emailTxt.value.indexOf('@@')==-1 || emailTxt.value.length>255|| isEmail(emailTxt.value)==false){
+        emailTrue = false;
+    	}else if(emailTxt.value.toString().toLowerCase().endsWith(".ac.uk")){
+        emailTrue = false;
+    	}
+    	else {
+    		emailTrue = true;
+    	}
+    };
+    var i=0;
+    function jumpp()
+    {
+        var space = document.getElementById('space');
+        var logo = document.getElementById('logo');
+        if (i === 0){
+             space.innerHTML = "<br><br><br><br><br><br>";
+             logo.innerHTML = "";
+             i = 1;
+         } else {
+            space.innerHTML = "";
+            logo.innerHTML = "<a ><img  src='@routes.Assets.versioned("images/logo.png")'' style='max-width:60px;height: auto;'  alt='BookSwop'></a>";
+            i = 0;
+         }
+    };
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.Application.main()
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file)
+
+
+
+#logIn page
+GET		/logIn						controllers.Application.logIn()
+
+#signUp page
+GET		/signUp						controllers.Application.signUp()
+
+#homePage
+GET		/homePage					controllers.Application.homePage()
+
+#profile
+GET		/profile					controllers.Application.profile()
+
+#forgetPassword page
+GET		/forgetPassword				controllers.Application.forgetPassword()
+
+#changePassword page
+GET		/changePassword				controllers.Application.changePassword()
+
+#termsOfService page
+GET		/termsOfService				controllers.Application.termsOfService()
+
+#privacyPolicy page
+GET		/privacyPolicy				controllers.Application.privacyPolicy()
+
+#aboutUs page
+GET		/aboutUs					controllers.Application.aboutUs()
+
+GET		/confirmBook				controllers.Application.confirmBook()
+GET   	/welcome            		controllers.Application.welcome()
+GET   	/activation         		controllers.Application.activator()
+GET		/bookDetail					controllers.Application.bookDetail()
+
+#GET		/v1/img						controllers.Assets.at(path="/views", file= "image.html")
+# Post a image to server
+
+POST    /v1/img						controllers.PictureController.uploadPic()
+
+
+#++++++++++++ Above are working examples, please have a look [from Horace] ++++++++
+# Note : bid = book id, uid = user id, eid = book entity id, cid = chat session id, mid = message id
+
+
+#++++++++++++ Interface Routes (May be modified as needed)
+
+#+++++ User Related
+# Show page to create a new user
+#GET		/v1/users/user								controllers.UserController.showCreateUser
+# Create a new user
+POST	/v1/users/user								controllers.UserController.createUser
+GET   /v1/users/check               controllers.UserController.checkToken(uid: Long ?= -1)
+# Ask for Mail Confirmation
+GET     /v1/users/confirmation						controllers.UserController.confirmUserRequest(uid: Long ?= -1)
+
+# Mail Confirmation (click in user mail box)
+GET     /v1/users/$uid<[0-9]+>/confirmation			controllers.UserController.confirmUser(uid: Long, uuid: String ?= "")
+# Show page to create a new user
+#GET	/v1/users/token								controllers.UserController.showLogin
+# Login in
+POST    /v1/users/token								controllers.UserController.login
+# Login off
+DELETE  /v1/users/token                             controllers.UserController.loginOff
+
+# Ask for Password Reset
+GET     /v1/users/psdResetRequest					controllers.UserController.psdResetRequest(email: String)
+
+# Password Reset (click in user mail box)
+GET     /v1/users/psdReset							controllers.UserController.psdReset(uid: Long?=-1, uuid: String?="")
+
+# Finish Password Reset process
+## Post body needs a json parameter called "uuid" returned from the query string "GET /v1/users/psdReset" (see above)
+## The given value is url-encoded (because it is in url query string), so please decode it first and then put it into body.
+## Also see test example.
+POST     /v1/users/psdReset							controllers.UserController.finishPsdReset()
+
+# Update user's information
+## allowed field: "name","password", "allowGPS" ,token in http header
+## use exactly same name in the quotation mark in Json body, passing value in String format(i.e. with quotation mark, example:"allowGPS":"true"))
+## It also supports to update "dateOfBirth", put "day","month" and "year" (in String format, example: "day":"3","year":"1956","month":"10")
+## To update "dateOfBirth" field, you need put all of "day","month" and "year" in the json body, failures to do this will lead to failare to update
+PUT		/v1/users/info								controllers.UserController.update()
+
+# Get  user's information.
+## Required fields : uid (who brings the request), targetUid (whose info. to be checked, this value default is same as "uid",so it can be omitted),token in http header
+## For Optional fields:  0 standards not required, 1 does, all default 0
+## For "allowGPS" field, only targetUid is same as uid (i.e. user want to view the his/her self info), the info will be shown. otherwise the request for "allowGPS" will be ignored
+## If the "targetUid" field is being omitted, the result will be same to specifying a targetUid to uid value explicitly.(i.e. user want to view the his/her self info)
+GET		/v1/users/info								controllers.UserController.show(uid: Long ?=-1, targetUid: Long?=-1, email: Int ?= 0, name: Int ?= 0, dateOfBirth: Int ?= 0, dateOfRegistration: Int ?= 0, rating: Int ?= 0, credit: Int ?= 0, inBlock: Int ?= 0, totalNumOfLent: Int ?= 0,recentLocation: Int ?=0, allowGPS: Int ?= 0)
+
+# Upload user's location
+POST 	/v1/users/location							controllers.UserController.updateLoc
+
+#+++++ Book Related
+
+# Get detailed information for a book
+GET		/v1/books/book/$bid<[0-9]+>					controllers.BookController.queryById(bid:Long, uid: Long ?= -1)
+
+# Get information for a particular list of book according to the book name or author name.
+# "limit"  is the number of result to be presented per page (default 10, maximum 40), "startIndex" is the start index of the result
+GET		/v1/books/list/:query						controllers.BookController.queryByName(query:String, uid: Long ?= -1, limit: Int ?= -1, startIndex: Int ?= 0)
+
+
+#+++++ Book Entity Related
+# Post new book entity
+##  Required field: "uid"(i.e. owner's), token in http header, "isbn"
+POST	/v1/entity								controllers.BookEntityController.postbook
+
+# Get information for a book entity
+GET 	/v1/entity/$eid<[0-9]+>					controllers.BookEntityController.queryById(eid:Long, uid:Long ?=-1)
+
+# Get info of a list of all book entities by specifying a book id
+GET 	/v1/entities/id/$bid<[0-9]+>			controllers.BookEntityController.queryByBookID(bid:Long,uid:Long ?=-1, limit: Int ?= -1,startIndex: Int?=0)
+
+# Get info of a list of book entities by specifying a book ISBN
+GET 	/v1/entities/isbn/$isbn<[#0-9]{13}>		controllers.BookEntityController.queryByISBN(isbn: String, uid:Long ?=-1, limit: Int ?= -1,startIndex: Int?=0)
+
+# Get info of a list of book entities by specifying a book id within a geographic range
+GET		/v1/entities/location/id/$bid<[0-9]+>	controllers.BookEntityController.queryByLocationAndBookID(bid:Long,uid:Long ?=-1, radius: Int ?= 10, limit: Int ?= -1,startIndex: Int?=0)
+
+# Get info of a list of book entities by specifying a book ISBN within a geographic range
+GET		/v1/entities/location/isbn/$isbn<[#0-9]{13}>	controllers.BookEntityController.queryByLocationAndBookISBN(isbn:String,uid:Long ?=-1, radius: Int ?= 10, limit: Int ?= -1,startIndex: Int?=0)
+
+# Get info of a list of book entities by specifying a owner
+GET		/v1/entities/user/$targetId<[0-9]+>		controllers.BookEntityController.queryByUserID(uid:Long ?=-1,targetId:Long, limit: Int ?= -1,startIndex: Int?=0)
+# Request a book entity
+POST 	/v1/entity/request			controllers.BookEntityController.requestBook
+
+# Cancel a book request
+POST	/v1/entity/cancellation		controllers.BookEntityController.cancelRequest
+
+# Confirm a received book
+##  Required field: "uid"(i.e. borrower's), token in http header, "eid", "review"
+POST	/v1/entity/confirmation		controllers.BookEntityController.endRequest
+
+GET   /v1/entities/requestingBooks        controllers.BookEntityController.getRequstingBooks(uid:Long?=-1,limit:Int?=-1,startIndex: Int?=0)
+GET   /v1/entities/postingBooks           controllers.BookEntityController.getPostingBooks(uid: Long?=-1,limit: Int?=-1,startIndex:Int?=0)
+GET   /v1/entities/beingrequestedBooks    controllers.BookEntityController.getBeingRequestedingBooks(uid: Long?=-1,limit: Int?=-1,startIndex: Int?=0)
+GET   /v1/entities/newlyComingBooks       controllers.BookEntityController.getNewlyComingBooks(uid: Long?=-1)
+
+#+++++ Chat Related
+GET     /v1/chat                      			 controllers.ChatController.index(uid:Long ?=-1,targetId:Long)
+#GET     /v1/chat/update                      controllers.ChatController.chat(uid:Long ?=-1,targetId:Long)
+GET     /v1/chat/update                      controllers.ChatController.socket(uid:Long ?=-1,targetId:Long)
+# Build a conversation
+#POST	/v1/talks/conversation 					controllers.ChatController.startTalks
+
+# Send a message
+#POST 	/v1/talks/msg							controllers.ChatController.send
+
+# Get incoming messages for a user
+#GET		/v1/talks/uid							controllers.ChatController.retrieveUidMsg(uid: Long ?= -1, startTime: String ?= "", startMsgID: Long ?= -1, limit:Int ?= -1)
+
+# Get incoming messages for a session
+#GET		/v1/talks/session						controllers.ChatController.retrieveCidMsg(uid: Long ?= -1, cid: Int ?= -1, startTime: String ?= "", startMsgID: Int ?= -1, limit:Int ?= -1)
+
+# Delete a message
+#DELETE 	/v1/talks/msg/$mid<[0-9]+>				controllers.ChatController.delete(mid: Long, uid: Long ?= -1)
+
+#confirmBook page
+GET		/confirmBook				controllers.Application.confirmBook()

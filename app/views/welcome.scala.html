@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title>BookSwop | free book swap platform</title>
+    <meta name="viewport">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
+
+    <script src="@routes.Assets.versioned("javascripts/jquery.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/modernizr.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/isotope.pkgd.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.backstretch.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/jquery.appear.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/template.js")" type="text/javascript"></script>
+    <style type="text/css">
+        body{
+            background:url("/assets/images/timg.jpg");
+            position:absolute; 
+            top:0; 
+            left:0; 
+            height:100%; 
+            width:100%; 
+            background-position: center 0; 
+            background-repeat: no-repeat; 
+            background-attachment:fixed; 
+            background-size: cover; 
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            zoom: 1; 
+            min-width: 600px;
+            min-height: 400px;
+        }
+    </style>    
+</head>
+
+<body nonce=cXdhZGFkemNhd2R3ZA==>
+    <header class="header fixed clearfix navbar navbar-fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="header-left clearfix">
+                        <div class="logo smooth-scroll">
+                              <div id="logo"><a href="#banner"><img src="@routes.Assets.versioned("images/logo.png")" style="max-width:60px;height: auto;"  nonce=cXdhZGFkemNhd2R3ZA== alt="BookSwop"></a></div>
+                        </div>
+                        <div class="site-name-and-slogan smooth-scroll">
+                            <div class="site-name"><a href="#banner">BookSwop</a></div>
+                            <div class="site-slogan">Free Book Swap Platform</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="header-right clearfix">
+                        <div class="main-navigation animated">
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="container-fluid">
+                                    <div class="navbar-header">
+                                        <div onclick="jumpp()" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Collect the nav links, forms, and other content for toggling -->
+                                    <div class="collapse navbar-collapse scrollspy smooth-scroll" id="navbar-collapse-1">
+                                        <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="@routes.Application.main">Home</a></li>
+                                            <li><a  href="@routes.Application.logIn">Log in</a></li>
+                                            <li><a  href="@routes.Application.signUp">Sign up</a></li>
+                                            <li><a href="@routes.Application.aboutUs">About us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                            <!-- navbar end -->
+                        </div>
+                        <!-- main-navigation end -->
+                    </div>
+                    <!-- header-right end -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="banner" class="banner">
+        <div class="banner-caption">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 object-non-visible" nonce=cXdhZGFkemNhd2R3ZA== data-animation-effect="fadeIn">
+                       <div id="space"></div>
+                        <h1 class="text-center">Hi <span id ="user_name"></span></h1>
+                        <p class="lead text-center" nonce=cXdhZGFkemNhd2R3ZA==>Welcome to BookSwop! We have already send mail to your mail box. Please check your mail box and confirm your email so that you can use our services.</p>
+                        <br>
+                        <p class="lead text-center" nonce=cXdhZGFkemNhd2R3ZA== style="small">Have not received it? Check your spam mailbox or <a herf="javascript:void(0)" id="user_mail">Resend the mail.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script nonce=cXdhZGFkemNhd2R3ZA==>
+//var localhost = "http://localhost:9000";
+//var localhost = "https://www.bookswop.me";
+$(document).ready(function(){
+  var validUntil = localStorage.getItem("_valid");
+  var current = $.now();
+  if(!localStorage.getItem('_name')||!localStorage.getItem('_uid')||!localStorage.getItem('_email')){
+    window.location.href='/';
+  }else if(localStorage.getItem("_uid")&&localStorage.getItem("_token")&&localStorage.getItem("_valid")&&localStorage.getItem("_email")&&(current<validUntil)){
+    window.location.href='/profile';
+  }else{
+    $("#user_name").text(localStorage.getItem('_name'));
+}});
+$("#user_mail").click(function(){
+  $.ajax({
+    url:'/v1/users/confirmation?uid='+localStorage.getItem('_uid'),
+    error:function(data){
+      alert(data.responseText);
+    },
+    success: function(){
+        alert("Successful! Please check "+ localStorage.getItem('_email'));
+    }
+  });
+});
+var i=0;
+ function jumpp()
+ {
+     var space = document.getElementById('space');
+     var logo = document.getElementById('logo');
+     if (i === 0){
+          space.innerHTML = "<br><br><br><br><br><br><br>";
+          logo.innerHTML = "";
+          i = 1;
+      } else {
+         space.innerHTML = "";
+         logo.innerHTML = "<a ><img  src='@routes.Assets.versioned("images/logo.png")'' style='max-width:60px;height: auto;'  alt='BookSwop'></a>";
+         i = 0;
+      }
+}
+</script>
+</html>

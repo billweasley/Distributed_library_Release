@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<head>
+    <script src="@routes.Assets.versioned("javascripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style2.css")">
+    <style type="text/css">
+    .banner{
+        background: #24292e;
+        height: 60px;
+        width: 100%;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    input::-webkit-input-placeholder { /* WebKit browsers */
+        color:    white;
+    }
+    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    white;
+    }
+    input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    white;
+    }
+    input:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    white;
+    }
+    </style>
+
+<script type="text/javascript">
+/*Javascript代码片段*/
+
+function overlay(){
+    var e1 = document.getElementById('modal-overlay');
+    e1.style.display =  (e1.style.display == "block"  ) ? "none" : "block";
+}
+
+$(document).ready(function (){
+  $("button[name='post']").click(function (){
+    $("#modal-overlay").fadeIn();
+  });
+});
+
+</script>
+<style type="text/css">
+/*CSS源代码*/
+.postBook{
+  display:inline-block;
+  padding:6px 12px;
+  margin-bottom:0;
+  line-height:1.4;
+  text-align:center;
+  cursor:pointer;
+  border-radius:4px;
+  border:1px solid transparent;
+  color:#fff;
+  background:#1aba9c;
+}
+#modal-overlay {
+  display:none;
+  position: fixed;   /* 使用绝对定位或固定定位  */
+  left: 0px;
+  top: 0px;
+  width:100%;
+  height:100%;
+  text-align:center;
+  z-index: 100;
+  background-color: #4f4f4f;
+  opacity: 0.93;   /* 背景半透明 */
+}
+/* 模态框样式 */
+.modal-data{
+  position: relative;
+  min-width: 400px;
+  width:40%;
+  margin: 100px auto;
+  background-color: #fff;
+  border:1px solid #000;
+  padding:15px;
+  text-align:center;
+  border-radius:8px;
+  height: 100px;
+  z-index: 101;
+  opacity: 1;
+}
+
+
+
+</style>
+</head>
+<body >
+
+
+
+  <div class="banner" style="z-index:10; min-width: 800px; ">
+      <div style="padding-left: 5%; padding-bottom: 10px;"><a href="@routes.Application.profile"><img id="logo" src="@routes.Assets.versioned("images/logo.png")" style="max-width:55px;" alt="BookSwap"></a></div>
+      <div style="margin-left: 15%; margin-top: -58px;"><input id="inputTop" style="color: white; border: 0px; outline: none; padding-left: 10px; padding-right: 52px; height: 36px; border-radius: 5px; background-color: #6c6c6c; width: 50%"  placeholder="Search Book" type="text" name="searchBook"> </div>
+      <div style=" margin-top: -33px; margin-left: 59%"><button id="logoSearch" type="button" style=" background: none; border: 0; outline: none;"><img src="@routes.Assets.versioned("images/search.png")" style="c:pointer;max-width: 25px;"/></button></div>
+      <div style="margin-left: 75%; margin-top: -38px;"><a href="@routes.Application.profile"><img  id="client" src="@routes.Assets.versioned("images/client.png")"  height="40" width="40"></a></div>
+      <div  style="margin-left: 80%; margin-top: -53px;"><ul id="nav">
+          <li><a id="hsubs"></a>
+    <ul class="subs">
+    <li><a href=""><div id="credit">Your Credit: </div></a></li>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="javascript:void(0)" id="logout_item">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+
+
+    <div style=" min-width: 1100px;margin-left:15%;">
+    <div id="bookList" style="float:left;margin-top: 100px; width: 700px;" >
+
+    </div>
+    <div style="float:left;margin-top: 100px;margin-left:5%;" >
+
+        <div style=" border:3px solid #d0d0d0; margin-top: 20px; border-radius: 8px; margin-bottom: 30px;">
+            <div><h2 style="text-align: center; padding-top: 10px;">Book Information</h2></div>
+            <div id="bookPhoto" style="margin-top:30px;text-align: center; font-size: 20px; padding-bottom: 30px;"></div>
+            <div style=" width: 300px; word-wrap: break-word; padding-left: 25px;">
+                <div><b>Name: </b></div><div id="bookName" style="font-size: 15px; padding-bottom: 10px;"></div>
+                <div><b>Author: </b></div><div id="author" style="font-size: 15px; padding-bottom: 10px;"></div>
+                <div><b>ISBN: </b></div><div id="isbn" style="font-size: 15px; padding-bottom: 10px;"></div>
+                <div><b>Introduction: </b></div><div id="information" style="font-size: 15px; padding-bottom: 10px;"></div>
+            </div>
+            <div style="margin-top: 30px; text-align: center; margin-bottom: 30px;">
+                <button name="post" class="postBook" style="width: 130px;height: 40px; font-size: 18px;">Post it</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-overlay" >
+    <div class="modal-data" id="modal-data">
+        <p>Do you want to post this book?</p>
+        <button id="yes" class="postBook" onclick="overlay()" style="margin-right: 10%; width: 70px;" href="">Yes</button>
+        <button id="no" class="postBook" onclick="overlay()" style="width: 70px;" href="">No</button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    var uid = localStorage.getItem("_uid");
+    var localname=localStorage.getItem("_name");
+    var credit=localStorage.getItem("_credit");
+	var sHref = window.location.href;
+    var testTag="?";
+    var args = sHref.split("?");
+    var tempQuery=args[1];
+    var args1 = tempQuery.split("=");
+  
+  
+    $(document).ready(function(){
+		
+		document.getElementById('hsubs').innerHTML =localname;
+		document.getElementById('credit').innerHTML += credit;
+        $.ajaxSetup({
+          headers : {
+            'X-AUTH-TOKEN' : localStorage.getItem("_token")
+          }
+        });
+        var address="/v1/books/list/"+args1[1]+"?uid="+uid+"&limit=1&startIndex=0";
+		var validUntil = localStorage.getItem("_valid");
+		var current = $.now();
+    if(localStorage.getItem("_uid")&&localStorage.getItem("_token")&&localStorage.getItem("_valid")&&localStorage.getItem("_email")&&(current<validUntil)){
+        $.ajax({
+		  headers:{
+			'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		  },
+          url:"/v1/users/check?uid="+localStorage.getItem("_uid"),
+          contentType: "application/json;charset=utf-8",
+          success:function(){
+			$.ajax({
+				headers:{
+					'X-AUTH-TOKEN' : localStorage.getItem("_token")
+			},
+			url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+			contentType: "application/json;charset=utf-8",
+			success:function(data){
+				var res = jQuery.parseJSON(JSON.stringify(data));
+				localStorage.setItem("_credit",res.credit);
+				localStorage.setItem("_name",res.name);
+			},
+			error:function(){
+				alert("Accuired Info failed... Please login again.");
+				localStorage.clear();
+				setTimeout("javascript:location.href='/logIn'", 100);
+			}
+			});
+		  
+		  },
+          error:function(){
+            alert("Auth failure... Please login again.");
+            localStorage.clear();
+            setTimeout("javascript:location.href='/logIn'", 100);
+          }
+        });
+    }else{
+      alert("No data... Please login again.");
+      localStorage.clear();
+      setTimeout("javascript:location.href='/logIn'", 100);
+    }
+        $.getJSON(address, function(data){
+			document.getElementById('bookPhoto').innerHTML = "<img src=\""+data.items[0].thumbnail+"\" width=\"150\"></a>";
+			document.getElementById('bookName').innerHTML = data.items[0].title;
+			document.getElementById('author').innerHTML = data.items[0].authors;
+			document.getElementById('isbn').innerHTML = data.items[0].ISBN_13;
+			document.getElementById('information').innerHTML = data.items[0].description;
+		});
+
+        if(args1[0]=="bookISBN"){
+            var address1="/v1/entities/isbn/"+args1[1]+"?uid="+uid;
+            $.getJSON(address1, function(data){
+				$("#bookList").append("Please choose a owner to request a book:");
+                $.each(data, function(i, asd) {
+                $("#bookList").append(
+					"<div style=\" margin-top:50px;\"><div><div style=\"float:left;width:200px;\"><b><font size=\"5\">Owner: </font></b>" +asd.owner.name+ "</div><input type=\"submit\" id=\""+asd.id+"_"+asd.owner.id+"\" class=\"confirm\" style=\"width:70px;height:25px;margin-left:20px;float:left;\" value=\"Request\"></div><div id=\""+asd.id+"\"></div></div>");
+					entityList(asd.id,asd.owner.rating);
+                });
+            }).fail(function(jqXHR){
+				if(jqXHR.status==401){
+					localStorage.clear();
+					alert("Token is invalid. Please re-login !");
+					setTimeout("javascript:location.href='/logIn'", 100);
+				}else{
+					$("#bookList").append("No such a book in database, do you want to post this book?");
+				}
+			});
+        }
+
+
+    });
+
+
+    function entityList(bookID, value){
+        document.getElementById(bookID).innerHTML += "<a onclick=firm()>";
+        document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-20px;'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stark2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stark2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stark2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stark2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stark2.png")'></div>";
+        if (value >= 4.8) {
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 530;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=4.3 && value<4.8){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 530;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 560;' src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=3.8 && value<4.3){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 530;' src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=3.3 && value<3.8){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 530;' src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=2.8 && value<3.3){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=2.3 && value<2.8){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 500;' src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=1.8 && value<2.3){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=1.3 && value<1.8){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'><img style='margin: -70 470;' src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=0.8 && value<1.3){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=0.3 && value<0.8){
+            document.getElementById(bookID).innerHTML += "<div style='margin-left:400px; margin-top:-25px;'><img style='margin: -70 440;' src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        }
+        document.getElementById(bookID).innerHTML += "</a><hr style='width:700px; margin-top: 40px;'>";
+    }
+
+
+    function firm() {
+        if(confirm("Do you want to get this book?")){
+        }
+    }
+
+ $(document).ready(function(){
+    $.ajaxSetup({
+      headers : {
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+      }
+    });
+  
+  $("#yes").click(function(){
+	var jsonData = {"uid": uid, "isbn":args1[1]};
+
+    $.ajax({ 
+		headers:{
+			'X-AUTH-TOKEN' : localStorage.getItem("_token")
+        },
+        type: "POST",
+        url:"/v1/entity",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify(jsonData),
+        processData: false,
+        success:function(data){
+			$.ajax({
+					headers:{
+					'X-AUTH-TOKEN' : localStorage.getItem("_token")
+				},
+				url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+				contentType: "application/json;charset=utf-8",
+				success:function(data){
+					var res = jQuery.parseJSON(JSON.stringify(data));
+					localStorage.setItem("_credit",res.credit);
+					localStorage.setItem("_name",res.name);
+				},
+			});
+			alert("Congratulations! Post successfully!");
+			window.location.href='/profile';
+        },
+        
+        error:function(data){
+			alert("Ops...Something wrong happened. Please try again later.");
+        }
+    });
+  
+  });
+  
+  
+	$("#bookList").on("click", ".confirm", function () {
+		var id=event.target.id.split("_");
+		var jsonData = {"uid":uid, "eid":id[0],};
+
+		$.ajax({ 
+			headers:{
+				'X-AUTH-TOKEN' : localStorage.getItem("_token")
+			},
+			type: "POST",
+			url:"/v1/entity/request",
+			contentType: "application/json;charset=utf-8",
+			data: JSON.stringify(jsonData),
+			processData: false,
+			success:function(data){
+				$.ajax({
+					headers:{
+					'X-AUTH-TOKEN' : localStorage.getItem("_token")
+				},
+				url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+				contentType: "application/json;charset=utf-8",
+				success:function(data){
+					var res = jQuery.parseJSON(JSON.stringify(data));
+					localStorage.setItem("_credit",res.credit);
+					localStorage.setItem("_name",res.name);
+				}
+			});
+				alert("Congratulations! Request successfully!");
+				window.location.href='/profile';
+			},
+        
+			error:function(data){
+				alert("Ops...Something wrong happened. Please try again later.");
+			}
+		});
+	});
+
+    $("#logoSearch").click(function(){
+
+               var search = document.getElementById("inputTop").value;
+               var uid = localStorage.getItem("_uid");
+               if(search!=undefined&&search!=="")
+                  window.open("/homePage?query="+search);
+            
+    });
+  
+    $("#logout，logout_item").click(function(e){
+      $.ajax({
+        type: 'DELETE',
+        url:"/v1/users/token?uid="+localStorage.getItem("_uid"),
+        success:function(){
+          localStorage.clear();
+          setTimeout("javascript:location.href='/logIn'", 100);
+        },
+        error:function(){
+          localStorage.clear();
+          setTimeout("javascript:location.href='/logIn'", 100);
+        }
+      });
+    });
+
+    $("#inputTop").keydown(function(e){
+        var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+        if(keyCode == 13){
+               var search = document.getElementById("inputTop").value;
+               var uid = localStorage.getItem("_uid");
+               if(search!=undefined&&search!=="")
+                  window.open("/homePage?query="+search);
+        }
+    });
+ });
+
+</script>
+</body>

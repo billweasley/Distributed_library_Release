@@ -1,0 +1,471 @@
+<!DOCTYPE HTML>
+<head>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style2.css")">
+    <style type="text/css">
+    .banner{
+        background: #24292e;
+        height: 60px;
+        width: 100%;
+        color: white;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    input::-webkit-input-placeholder { /* WebKit browsers */
+        color:    white;
+    }
+    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    white;
+    }
+    input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    white;
+    }
+    input:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    white;
+    }
+    </style>
+</head>
+<body>
+  <div class="banner" style="z-index:10; min-width: 800px; ">
+      <div style="padding-left: 5%; padding-bottom: 10px;"><a href="@routes.Application.profile"><img id="logo" src="@routes.Assets.versioned("images/logo.png")" style="max-width:55px;" alt="BookSwap"></a></div>
+      <div style="margin-left: 15%; margin-top: -58px;"><input id="inputTop" style="color: white; border: 0px; outline: none; padding-left: 10px; padding-right: 52px; height: 36px; border-radius: 5px; background-color: #6c6c6c; width: 50%"  placeholder="Search Book" type="text" name="searchBook"> </div>
+      <div style=" margin-top: -33px; margin-left: 59%"><button id="logoSearch" type="button" style=" background: none; border: 0; outline: none;"><img src="@routes.Assets.versioned("images/search.png")" style="max-width: 25px;"/></button></div>
+      <div style="margin-left: 75%; margin-top: -38px;"><a href="@routes.Application.profile"><img  id="client" src="@routes.Assets.versioned("images/client.png")"  height="40" width="40"></a></div>
+      <div  style="margin-left: 80%; margin-top: -53px;"><ul id="nav">
+          <li><a id="hsubs"></a>
+    <ul class="subs">
+    <li><a href=""><div id="credit">Your Credit: </div></a></li>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="javascript:void(0)" id="logout_item">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+    <div class="table" style="margin-left: 15%; position: relative; min-width: 1000px;">
+        <div id="homePage-table-left" style="margin-top: 100px; float: left; width: 60%;">
+            <div style="background-color: #fffcec; color: #000;  border: 2px solid #ffa042; border-radius: 8px; margin-bottom: 50px;">
+                <div style="padding-top: 30px; padding-left: 15%; font-size: 25px; line-height: 25px;"><h3>Profile</h3></div>
+
+                <div id="profile" >
+                  <div style='padding-left: 200px; font-size: 15px; line-height: 25px; margin-top: -25px; color: red;' id='wrongReset'></div>
+                  <table id="profile_edit" cellspacing='20' style='display:none;padding-left: 15%;'>
+                     <tr>
+                        <td ><br>Name:</br> </td>
+                       <td>
+                         <input id='newN' type='text' size='15' maxlength='50' style='border-radius: 5px; height: 25px; font-size: 18px; padding-left: 5px; padding-right: 5px;'/>
+                       </td>
+                       <td>
+                         <button type='button' onclick='endEditName(newN)' style='border-radius: 5px; width: 80px; height: 30px; background-color: #eff3f6'>Update</button>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td><br>Email address: </br></td><td id="emailOnLeft_e"></td>
+                     </tr>
+                     <tr>
+                       <td><br>Date of birth: </br></td>
+                       <td id="birthOnLeft_e"></td>
+                     </tr>
+                     <tr>
+                       <td><br>Old password: </br></td>
+                       <td>
+                         <input id='oldP' type='password' size='15' maxlength='18' style='border-radius: 5px; height: 25px; font-size: 18px; padding-left:5px;'>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td><br>New password: </br></td>
+                       <td>
+                         <input id='newP' type='password' size='15' maxlength='18' style='border-radius: 5px; height: 25px; font-size: 18px; padding-left:5px;'>
+                       </td>
+                     </tr>
+                     <tr>
+                       <td><br>Confirm password: </br></td>
+                       <td>
+                         <input id='confirmP' type='password' size='15' maxlength='18' style='border-radius: 5px; height: 25px; font-size: 18px; padding-left:5px;'>
+                       </td>
+                       <td>
+                           <button type='button' onclick='endEditPassword(oldP, newP, confirmP)' style='border-radius: 5px; width: 80px; height: 30px; background-color: #eff3f6'>Update</button>
+                       </td>
+                     </tr>
+                     </table>
+
+                    <table id="profile_show" cellspacing="20" style="padding-top:30px; margin-left: 20%;">
+                        <tr>
+                            <td>Name: </td>
+                            <td id="nameOnLeft"></td>
+                        </tr>
+                        <tr>
+                            <td>Email address: </td>
+                            <td id="emailOnLeft"></td>
+                        </tr>
+                        <tr>
+                            <td>Date of birth: </td>
+                            <td id="birthOnLeft"></td>
+                        </tr>
+                    </table>
+                    <div id="profile_show_button" style="text-align: right; padding-right: 3%; padding-bottom: 20px;"><a onclick="edit()" style="color: blue;"><u>[Edit My Information]</u></a></div>
+                </div>
+            </div>
+            <div id="requestingBook" style="background-color: #fffcec; color: #000; border: 2px solid #ffa042; border-radius: 8px; margin-bottom: 50px;padding-left: 15%;">
+                <div style="padding-top: 15px;  font-size: 25px;"><h3>Requesting Books</h3></div>
+                <div style="padding-bottom: 40px;" id="requestedBook"></div>
+            </div>
+           <div id="postingBook" style="background-color: #fffcec; color: #000; border: 2px solid #ffa042; border-radius: 8px; margin-bottom: 50px;padding-left: 15%; padding-bottom: 30px;">
+                <div style="padding-top: 15px;  font-size: 25px;"><h3>Posting Books</h3></div>
+                <div style="padding-bottom: 20px;" id="postedBook"></div>
+            </div>
+        </div>
+        <div align="center" style="float: left; margin-left: 7%; width: 30%; margin-top: 120px;">
+            <div style="padding-bottom: 100px; margin: auto;">Photo</div>
+            <div id="nameOnRight" style="padding-bottom: 30px; font-size: 30px;"></div>
+            <div class="email" style="font-size: 20px; padding-bottom: 20px;" id="emailOnRight"></div>
+            <div id="creditOnRight" style="font-size: 20px;"></div>
+            <div id="value" style="font-size: 20px; padding-top: 20px;"></div>
+            <div style="margin-top: 200px; text-align: center;"><button type="submit" id="logout" style="background-color: #2894ff; color: #fff; border-color: #07c; border-radius: 5px;height: 40px;width: 30%; font-size: 15px; text-align: center;">Log out</button></div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var name = localStorage.getItem("_name");
+    var credit = localStorage.getItem("_credit");
+    var email = localStorage.getItem("_email");
+    var year =  localStorage.getItem("_year");
+    var month = localStorage.getItem("_month");
+    var day =  localStorage.getItem("_day");
+    var oldPassword = "12345678";
+    var newName;
+    var uid =  localStorage.getItem("_uid");    
+
+    function edit(){
+        $("#gadget_url").val("name");
+        $("#profile_show").css("display","none");
+        $("#profile_edit").css("display","");
+        $("#profile_show_button").css("display","none");
+    }
+
+    function endEditName(nameTxt){
+        var validName = true;
+        if (nameTxt.value==""){
+            document.getElementById('wrongReset').innerHTML = "*Name can't be blank";
+        } else if (nameTxt.value.length<3){
+            document.getElementById('wrongReset').innerHTML = "*Name is too short(minimum is 3 characters)";
+        } else if (nameTxt.value.length>50){
+            document.getElementById('wrongReset').innerHTML = "*Name is too long(maxmum is 50 characters)";
+        } else{
+            for (var i=0;i<nameTxt.value.length;i++){
+                if (nameTxt.value.charCodeAt(i)<48 || (nameTxt.value.charCodeAt(i)>57 && nameTxt.value.charCodeAt(i)<65) || (nameTxt.value.charCodeAt(i)>90 && nameTxt.value.charCodeAt(i)<97) || nameTxt.value.charCodeAt(i)>122)
+                    validName = false;
+            }
+            if (validName == false){
+                document.getElementById('wrongReset').innerHTML = "*Name only allows numbers and letters";
+            } else {
+                newName = nameTxt.value;
+                updateName(nameTxt.value);
+                $("#profile_show").css("display","");
+                $("#profile_edit").css("display","none");
+                $("#profile_show_button").css("display","");
+            }
+        }
+    }
+
+
+
+
+    function endEditPassword(oldPasswordTxt, newPasswordTxt, confirmPasswordTxt){
+        if (oldPasswordTxt.value !== oldPassword){
+            document.getElementById('wrongReset').innerHTML = "*Old password is invalid";
+        } else if (newPasswordTxt.value === '' || newPasswordTxt.value.length<8 || newPasswordTxt.value.length>18){
+            document.getElementById('wrongReset').innerHTML = "*The new password is invalid";
+        } else if (newPasswordTxt.value !== confirmPasswordTxt.value){
+            document.getElementById('wrongReset').innerHTML = "*Password doesn't match the confirmation";
+        } else {
+            document.getElementById('wrongReset').innerHTML = "";
+            location=location;
+        }
+    }
+
+    function updateName(newName){
+      var uidVar = localStorage.getItem("_uid");
+      var jsonData = {"uid":uidVar,"name":newName};
+      var xhr = new XMLHttpRequest();
+      xhr.open("PUT",'/v1/users/info',true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-AUTH-TOKEN', localStorage.getItem("_token"))
+      xhr.send(JSON.stringify(jsonData));
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4) {
+          if(xhr.status == 200){
+            var myArr = JSON.parse(this.responseText);
+            if (window.localStorage) {
+              try {
+                localStorage.setItem('_name', newName);
+                name = localStorage.getItem("_name");
+                document.getElementById('name').innerHTML = name;
+                document.getElementById('nameOnRight').innerHTML = name;
+                document.getElementById('nameOnLeft').innerHTML = name;
+                location=location;
+              } catch (e) {
+                if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+                  alert("Sorry, Cannot storage infomation on this devices, because the device storage is full. Please Check your browser and try later on. Error Code: CT0001");
+                }
+              }
+            }
+          }else if(xhr.status == 401){
+            alert("Auth failure... Please login again.");
+            localStorage.clear();
+            setTimeout("javascript:location.href='/logIn'", 100);
+         }else{
+             document.getElementById('wrongReset').innerHTML = "Error from server:" + xhr.responseText;
+         }
+        }
+      }
+    }
+
+
+
+window.onload = function(){
+      var value = 2.5;
+        document.getElementById('hsubs').innerHTML = name;
+        document.getElementById('nameOnRight').innerHTML = name;
+        document.getElementById('nameOnLeft').innerHTML = name;
+        document.getElementById('newN').value = name;
+        document.getElementById('credit').innerHTML += credit;
+        document.getElementById('creditOnRight').innerHTML = "Credit: " +credit;
+        document.getElementById('emailOnLeft').innerHTML = email;
+        document.getElementById('emailOnRight').innerHTML = email;
+        document.getElementById('emailOnLeft_e').innerHTML = email;
+        document.getElementById('birthOnLeft').innerHTML = year + "." + month + "." + day;
+        document.getElementById('birthOnLeft_e').innerHTML = year + "." + month + "." + day;
+        document.getElementById('value').innerHTML += "<div><img src='@routes.Assets.versioned("images/stark2.png")'><img src='@routes.Assets.versioned("images/stark2.png")'><img src='@routes.Assets.versioned("images/stark2.png")'><img src='@routes.Assets.versioned("images/stark2.png")'><img src='@routes.Assets.versioned("images/stark2.png")'></div>";
+
+        if (value >= 4.8) {
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px;'><img  src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=4.3 && value<4.8){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-16px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=3.8 && value<4.3){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-32px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=3.3 && value<3.8){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-48px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=2.8 && value<3.3){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-64px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=2.3 && value<2.8){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-80px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=1.8 && value<2.3){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-96px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=1.3 && value<1.8){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-112px;'><img src='@routes.Assets.versioned("images/stars2.png")'><img src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } else if (value>=0.8 && value<1.3){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-128px;'><img src='@routes.Assets.versioned("images/stars2.png")'></div>";
+        } else if (value>=0.3 && value<0.8){
+            document.getElementById('value').innerHTML += "<div style='margin-top:-26px; margin-left:-144px;'><img src='@routes.Assets.versioned("images/f-0.png")'></div>";
+        } 
+}
+
+function list_query(isbn,owner_email,eid){
+    $.ajax({
+		headers:{
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		},
+        url: "/v1/books/list/"+isbn+"?uid="+localStorage.getItem("_uid")+"&limit=1&startIndex=0",
+        contentType: "application/json;charset=utf-8",
+        success: function(book_data) {
+            var book_name =  book_data.items[0].title;
+          $("#requestedBook").append(
+            "<div style=\" margin-top:30px;\">"+
+              "<div>"+
+              "<span><b>#</b>"+ eid+"</span>"+
+              "<span style=\"padding-left:15px\"><b>Title: </b>"+book_name+"</span>"+
+              "</div>"+
+              "<div>"+
+              "<span><b>Contact with: </b>"+owner_email+"</span>"+
+              "<span><b></b></span>"+
+              "</div>"+ "<input type=\"submit\"  onclick=\"location.href='confirmBook?eid="+eid+"'\" style=\"width:70px;height:25px\" value=\"Confirm\">" + "<input type=\"submit\" id=\""+eid+"\" class=\"cancel\" style=\"width:70px;height:25px;margin-left:20px;\" value=\"Cancel\">"+
+            "</div>"
+          );
+        },
+
+    });
+}
+
+function post_list_query(isbn,eid){
+    $.ajax({
+		headers:{
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		},
+        url: "/v1/books/list/"+isbn+"?uid="+localStorage.getItem("_uid")+"&limit=1&startIndex=0",
+        contentType: "application/json;charset=utf-8",
+        success: function(book_data) {
+          var book_name =  book_data.items[0].title;
+          $("#postedBook").append(
+            "<ul style=\" margin-top:30px;\">"+
+              "<li style=\"padding-left:15px\">"+book_name+"</li>"+
+            "</ul>"
+          );
+        },
+      //  f
+    });
+}
+	
+
+function get_list_data(){
+    $.ajax({
+	  headers:{
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+	  },
+      url: "/v1/entities/requestingBooks?uid="+localStorage.getItem("_uid"),
+      contentType: "application/json;charset=utf-8",
+      success: function(data) {
+          $("#requestedBook").empty();
+          var jsonObj = jQuery.parseJSON(data);
+          for(var i=0;i<jsonObj.length;i++){
+            var eid = jsonObj[i].id;
+            var bid = jsonObj[i].book.id;
+            var isbn = jsonObj[i].book.isbn;
+            var owner_email = jsonObj[i].owner.email;
+            list_query(isbn, owner_email,eid);
+          }
+      }
+  });
+}
+function get_post_list_data(){
+    $.ajax({
+	  headers:{
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+	  },
+      url: "/v1/entities/postingBooks?uid="+localStorage.getItem("_uid"),
+      contentType: "application/json;charset=utf-8",
+      success: function(data) {
+          $("#postedBook").empty();
+          var jsonObj = jQuery.parseJSON(data);
+          for(var i=0;i<jsonObj.length;i++){
+            var eid = jsonObj[i].id;
+            var bid = jsonObj[i].book.id;
+            var isbn = jsonObj[i].book.isbn;
+            post_list_query(isbn,eid);
+          }
+      }
+  });
+}
+
+$(document).ready(function(){
+    $.ajaxSetup({
+      headers : {
+        'X-AUTH-TOKEN' : localStorage.getItem("_token")
+      }
+    });
+    var validUntil = localStorage.getItem("_valid");
+    var current = $.now();
+    if(localStorage.getItem("_uid")&&localStorage.getItem("_token")&&localStorage.getItem("_valid")&&localStorage.getItem("_email")&&(current<validUntil)){
+        $.ajax({
+		  headers:{
+			'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		  },
+          url:"/v1/users/check?uid="+localStorage.getItem("_uid"),
+          contentType: "application/json;charset=utf-8",
+          success:function(){
+			$.ajax({
+				headers:{
+					'X-AUTH-TOKEN' : localStorage.getItem("_token")
+			},
+			url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+			contentType: "application/json;charset=utf-8",
+			success:function(data){
+				var res = jQuery.parseJSON(JSON.stringify(data));
+				localStorage.setItem("_credit",res.credit);
+				localStorage.setItem("_name",res.name);
+			},
+			error:function(){
+				alert("Accuired Info failed... Please login again.");
+				localStorage.clear();
+				setTimeout("javascript:location.href='/logIn'", 100);
+			}
+			});
+		  
+		  },
+          error:function(){
+            alert("Auth failure... Please login again.");
+            localStorage.clear();
+            setTimeout("javascript:location.href='/logIn'", 100);
+          }
+        });
+    }else{
+      alert("No data... Please login again.");
+      localStorage.clear();
+      setTimeout("javascript:location.href='/logIn'", 100);
+    }
+	
+	get_list_data();
+	get_post_list_data();
+
+    $("#inputTop").keydown(function(e){
+        var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+        if(keyCode == 13){
+               var search = document.getElementById("inputTop").value;
+               var uid = localStorage.getItem("_uid");
+               if(search!=undefined&&search!=="")
+                  window.open("/homePage?query="+search);
+            }
+    });
+	
+	$("#requestingBook").on("click", ".cancel", function () {
+		var eid=event.target.id;  
+		var jsonData = {"uid": uid, "eid":eid,};
+		$.ajax({ 
+			headers:{
+				'X-AUTH-TOKEN' : localStorage.getItem("_token")
+			},
+			type: "POST",
+			url:"/v1/entity/cancellation  ",
+			contentType: "application/json;charset=utf-8",
+			data: JSON.stringify(jsonData),
+			processData: false,
+			success:function(data){
+				$.ajax({
+					headers:{
+						'X-AUTH-TOKEN' : localStorage.getItem("_token")
+					},
+				url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+				contentType: "application/json;charset=utf-8",
+				success:function(data){
+					var res = jQuery.parseJSON(JSON.stringify(data));
+					localStorage.setItem("_credit",res.credit);
+					localStorage.setItem("_name",res.name);
+				}
+				});				
+				alert("Congratulations! Cancel successfully!");
+				window.location.href='/profile';
+			},
+			error:function(data){
+				alert("Ops, Something wrong");
+			}
+		});  
+	});
+	
+    $("#logout,#logout_item").click(function(e){
+      $.ajax({
+	  	headers:{
+			'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		},
+        type: 'DELETE',
+        url:"/v1/users/token?uid="+localStorage.getItem("_uid"),
+        success:function(){
+          localStorage.clear();
+          setTimeout("javascript:location.href='/logIn'", 100);
+        },
+        error:function(){
+          localStorage.clear();
+          setTimeout("javascript:location.href='/logIn'", 100);
+        }
+      });
+    })
+    $("#logoSearch").click(function(){
+        var search = document.getElementById("inputTop").value;
+        var uid = localStorage.getItem("_uid");
+        if(search!=undefined&&search!=="")
+        window.open("/homePage?query="+search);           
+    });	
+});
+
+
+</script>
+</body>

@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.12.0.min.js" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/carousel.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/button.css")">
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("stylesheets/carousel.css")">
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style2.css")">
+
+    <style type="text/css">
+    .banner{
+        background: #24292e;
+        height: 60px;
+        width: 100%;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    input::-webkit-input-placeholder { /* WebKit browsers */
+        color:    white;
+    }
+    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    white;
+    }
+    input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    white;
+    }
+    input:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    white;
+    }
+    </style>
+</head>
+<body>
+  <div class="banner" style="z-index:10; min-width: 800px; ">
+      <div style="padding-left: 5%; padding-bottom: 10px;"><a href="@routes.Application.profile"><img id="logo" src="@routes.Assets.versioned("images/logo.png")" style="max-width:55px;" alt="BookSwap"></a></div>
+      <div style="margin-left: 15%; margin-top: -58px;"><input id="inputTop" style="color: white; border: 0px; outline: none; padding-left: 10px; padding-right: 52px; height: 36px; border-radius: 5px; background-color: #6c6c6c; width: 50%"  placeholder="Search Book" type="text" name="searchBook"> </div>
+      <div style=" margin-top: -33px; margin-left: 59%"><button id="logoSearch" type="button" style=" background: none; border: 0; outline: none;"><img src="@routes.Assets.versioned("images/search.png")" style="max-width: 25px;"/></button></div>
+      <div style="margin-left: 75%; margin-top: -38px;"><a href="@routes.Application.profile"><img  id="client" src="@routes.Assets.versioned("images/client.png")"  height="40" width="40"></a></div>
+      <div  style="margin-left: 80%; margin-top: -53px;"><ul id="nav">
+          <li><a id="hsubs"></a>
+    <ul class="subs">
+    <li><a href=""><div id="credit">Your Credit: </div></a></li>
+    <li><a href="/profile">Profile</a></li>
+   <li><a href="javascript:void(0)" id="logout_item">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+    <div class="table" style="margin-top: 100px; min-width: 1100px; ">
+      <div style="margin-left: 18%; font-size: 30px;">New Arrival:</div>
+
+      <div id="pictureSlider" style="margin: auto; width: 80%;" class="pictureSlider poster-main" data-setting='{"width":800,"height":250,"posterWidth":180,"posterHeight":200,"scale":0.7,"autoPlay":true,"delay":2000,"speed":300,"verticalAlign" : "middle"}'>
+        <div class="poster-btn poster-prev-btn"></div>
+          <ul class="poster-list">
+            <li id="slide1" class="poster-item"><a href="#"><img src="" width="100%" height="25%"></a></li>
+            <li id="slide2" class="poster-item"><a href="#"><img src="" width="100%" height="25%"></a></li>
+            <li id="slide3" class="poster-item"><a href="#"><img src="" width="100%" height="25%"></a></li>
+            <li id="slide4" class="poster-item"><a href="#"><img src="" width="100%" height="25%"></a></li>
+            <li id="slide5" class="poster-item"><a href="#"><img src="" width="100%" height="25%"></a></li>
+          </ul>
+        <div class="poster-btn poster-next-btn"></div>
+          </ul>
+          <div class="poster-btn poster-next-btn"></div>
+      </div>
+
+      <script>
+      $(function(){
+        Carousel.init($(".pictureSlider"));
+      });
+      </script>
+
+
+      <div style="height: 150px;  margin-left: 5%; margin-top: 5%; width: 20%; float: left; " >
+        <div style="margin-left: 20%;" ><input placeholder="lilometer number" style=" height: 30px; width: 30px; margin-bottom: 10px; border-radius: 5px;" maxlength="2"></div>
+        <button type="submit" style="background-color: #0095ff; color: #fff; border-color: #07c; border-radius: 5px;height: 40px;width: 140px; font-size: 15px;">Search the books with in this kilometer
+        </button>
+      </div>
+      <div id="first_td" style="margin-left: 20%; width: 65%; margin-top: -15%; float: left;">
+        <div id="bookList" ></div>
+        <div style="margin: auto; width:30%; padding-bottom: 30px;">
+          <a id="last" class="button back" href="javascript:void(0)" style="display:none">Last Page</a>
+          <a id="next" class="button next" href="javascript:void(0)" style="display:none; margin: 5px;">Next Page</a>
+		</div>
+
+
+<script type="text/javascript">
+
+    var uid = localStorage.getItem("_uid");
+    var credit = localStorage.getItem("_credit");
+    var searchPage = 0;
+    var search = "";
+    $(document).ready(function(){
+		var validUntil = localStorage.getItem("_valid");
+		var current = $.now();
+    if(localStorage.getItem("_uid")&&localStorage.getItem("_token")&&localStorage.getItem("_valid")&&localStorage.getItem("_email")&&(current<validUntil)){
+        $.ajax({
+		  headers:{
+			'X-AUTH-TOKEN' : localStorage.getItem("_token")
+		  },
+          url:"/v1/users/check?uid="+localStorage.getItem("_uid"),
+          contentType: "application/json;charset=utf-8",
+          success:function(){
+			$.ajax({
+				headers:{
+					'X-AUTH-TOKEN' : localStorage.getItem("_token")
+			},
+			url:"/v1/users/info?uid="+localStorage.getItem("_uid")+"&name=1&credit=1",
+			contentType: "application/json;charset=utf-8",
+			success:function(data){
+				var res = jQuery.parseJSON(JSON.stringify(data));
+				localStorage.setItem("_credit",res.credit);
+				localStorage.setItem("_name",res.name);
+			},
+			error:function(){
+				alert("Accuired Info failed... Please login again.");
+				localStorage.clear();
+				setTimeout("javascript:location.href='/logIn'", 100);
+			}
+			});
+		  
+		  },
+          error:function(){
+            alert("Auth failure... Please login again.");
+            localStorage.clear();
+            setTimeout("javascript:location.href='/logIn'", 100);
+          }
+        });
+    }else{
+      alert("No data... Please login again.");
+      localStorage.clear();
+      setTimeout("javascript:location.href='/logIn'", 100);
+    }
+        $("#hsubs").text(localStorage.getItem("_name"));
+        document.getElementById('credit').innerHTML += credit;
+        document.getElementById('bookList').innerHTML = "<br>";
+        $.ajaxSetup({
+          headers : {
+            'X-AUTH-TOKEN' : localStorage.getItem("_token")
+          }
+        });
+        $.ajax({
+          type: 'GET',
+          beforeSend: function(request) {
+            request.setRequestHeader('X-AUTH-TOKEN', localStorage.getItem("_token"));
+          },
+          url:"/v1/entities/newlyComingBooks?uid="+localStorage.getItem("_uid"),
+          success:function(data){
+            var jsonObj = jQuery.parseJSON(data);
+            for(var i=0;i<10;i++){
+              var isbn = jsonObj[i].book.isbn;
+              if(isbn!==undefined) showSlider(isbn,(i+1)%6);
+            }
+          },
+          error:function(){
+            $(".pictureSlider").css("display","none");
+          }
+        });
+        var sHref = window.location.href;
+        var testTag = "?";
+        if (sHref.indexOf(testTag)!=-1){
+          var args = sHref.split(testTag);
+          var tempQuery = args[1];
+          var args1 = tempQuery.split("=");
+          var uid = localStorage.getItem("_uid");
+          if(args1[0]=="query"&&args1[1]!=undefined&&args1[1]!==""){
+              searchPage = 0
+              document.getElementById("inputTop").value = args1[1];
+              var address="/v1/books/list/"+args1[1]+"?uid="+uid+"&startIndex="+0;
+              query(address);
+              search = document.getElementById("inputTop").value;
+              $("#last").css("display", "none");
+            }
+        }
+
+
+
+        $("#inputTop").keydown(function(e){
+            var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+              if(keyCode == 13) {
+                   searchPage = 0
+                   search = document.getElementById("inputTop").value;
+                   if(search!=undefined&&search!==""){
+                     var uid = localStorage.getItem("_uid");
+                     var address="/v1/books/list/"+search+"?uid="+uid+"&startIndex="+0;
+                     query(address);
+                     search = document.getElementById("inputTop").value;
+                     $("#last").css("display", "none");
+                   }
+              }
+        });
+        $("#last").click(function(e){
+             var uid = localStorage.getItem("_uid");
+             if(searchPage>=10){
+               searchPage-=10;
+               var address="/v1/books/list/"+search+"?uid="+uid+"&startIndex="+searchPage;
+               query(address);
+               if(searchPage<10){
+                 $("#last").css("display", "none");
+               }else{
+                 $("#last").css("display", "");
+               }
+             }
+        });
+        $("#next").click(function(e){
+             var uid = localStorage.getItem("_uid");
+             searchPage+=10;
+             var address="/v1/books/list/"+search+"?uid="+uid+"&startIndex="+searchPage;
+             query(address);
+             if(searchPage<10){
+               $("#last").css("display", "none");
+             }else{
+               $("#last").css("display", "");
+             }
+        });
+
+        $("#logout,#logout_item").click(function(e){
+          $.ajax({
+            type: 'DELETE',
+            url:"/v1/users/token?uid="+localStorage.getItem("_uid"),
+            success:function(){
+              localStorage.clear();
+              setTimeout("javascript:location.href='/logIn'", 100);
+            },
+            error:function(){
+              localStorage.clear();
+              setTimeout("javascript:location.href='/logIn'", 100);
+            }
+          });
+        });
+		
+		$("#logoSearch").click(function(){
+			var search = document.getElementById("inputTop").value;
+			var uid = localStorage.getItem("_uid");
+			if(search!=undefined&&search!=="")
+				window.open("/homePage?query="+search);           
+		});	
+    });
+
+function showSlider(isbn,i){
+      $.ajax({
+        url: "/v1/books/list/"+isbn+"?uid="+localStorage.getItem("_uid")+"&limit=1&startIndex=0",
+        contentType: "application/json;charset=utf-8",
+        success: function(book_data) {
+            var image =  book_data.items[0].thumbnail;
+            $("img","#slide"+i).attr("src", image);
+            $("a","#slide"+i).attr("href", "/bookDetail?bookISBN="+isbn);
+        }
+      });
+}
+
+function query(address){
+    $.getJSON(address, function(data){
+        $("#bookList").empty();
+        $("#bookList").css("padding-top","0px");
+        $("#bookList").append("<ul id=\"book-list-ul\" style = \"list-style: none;padding-left:0%\"></ul>");
+        if(data.numberOfResult>0&&data.items.length>0){
+            $("#next").css("display", "");
+        }else{
+            $("#next").css("display", "none");
+        }
+        if(data.numberOfResult>0&&data.items.length==0){
+            $("#last").css("display", "");
+            $("#next").css("display", "none");
+            $("#bookList").append("<h3 style=\"margin-top:-500px\">Sorry, No More Result Found.</h3>");
+        }
+
+         if(data.numberOfResult==0){
+            $("#bookList").empty();
+            $("#bookList").append("<h3 style=\"margin-top:-500px\">Sorry, No Result Found.</h3>");
+        }
+        $.each(data.items, function(i, asd) {
+          if(asd.title!==undefined&&asd.thumbnail!==undefined&&asd.authors!==undefined&&asd.ISBN_13!==undefined){
+              $("#book-list-ul").append(
+                  "<li><div id=\"container\" style=\" min-height:250px; position: relative; padding-top:50px;\">"+
+                  "<div id=\"img\" style:\"display: inline-block; float:left;\">"+"<a href=\"/bookDetail?bookISBN="+asd.ISBN_13+"\">"+
+                  "<img style = \"width:20%; z-index=-1; display:inline-block;padding-left: 10%;float:left\" src=\""+asd.thumbnail+"\"/></div>"+
+                  "</a><div style = \"width:60%; display: table-cell; padding-left: 10%;float:left;\">"+
+                      "<b><a href=\"/bookDetail?bookISBN="+asd.ISBN_13+"\" style=\"font-size:30px;text-decoration: none;\">" +asd.title+ "</a></b>"+
+                      "<br/><br/><b>Author(s): </b>" + asd.authors+
+                      "<br/><br/><b>ISBN : </b>" + asd.ISBN_13+
+                      "<br/><br/><b>Publisher: </b>"+ ((asd.publisher!==undefined)? asd.publisher : "(No information)")+
+                      "<br/><br/><b>Publisher Date: </b>"+ ((asd.publishedDate!==undefined)? asd.publishedDate: "(No information)")+
+                      "</div>"+
+                  "</div><hr style=\"position: relative; width:80%; margin-left:10%;margin-top:50px;\"/>"+
+                  "</li>"
+              );
+            }
+        });
+      }).fail(function(jqXHR){
+           if(jqXHR.status==401){
+              localStorage.clear();
+              alert("Token is invalid. Please re-login !");
+              setTimeout("javascript:location.href='/logIn'", 100);
+           }
+     });
+     $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
+
+</script>
+</body>
