@@ -7,7 +7,9 @@ We aim to provide a free platform to allow people to share their books with fell
 We believe this website will be an effective tool for students and lecturers alike.    
 Running Website: <https://www.bookswop.me>  
 
-## Team Members && Mailing List:   
+## Team Members && Mailing List:  
+######(The name list is based on alphabetical ordering)   
+
 + [Ionut Brusten](mailto:I.R.Brusten@student.liverpool.ac.uk)  
 + [Huaiyu Dang](mailto:H.Dang2@student.liverpool.ac.uk)  
 + [James Friar](mailto:J.Friar@student.liverpool.ac.uk)  
@@ -16,9 +18,8 @@ Running Website: <https://www.bookswop.me>
 + [Ngoc Duy Pham](mailto:N.Pham@student.liverpool.ac.uk)  
 + [Ruohan Su](mailto:R.Su5@student.liverpool.ac.uk)  
 + [Haoxuan Wang](mailto:H.Wang76@student.liverpool.ac.uk) (Team leader) 
-+ [Dingfeng Yuan](mailto:D.Yuan3@student.liverpool.ac.uk)    
-(The name list is based on alphabetical ordering)  
-
++ [Dingfeng Yuan](mailto:D.Yuan3@student.liverpool.ac.uk)
+  
 ## Run the website:  
 
 The project is built on an Play Framework 2.5.   
@@ -43,12 +44,15 @@ Please check the following files, search and replace ALL <To fill> label with yo
 
 Additionally, if you are using Oracle JDK rather than Open JDK, please install Java Cryptography Extension (JCE).  
 
-## Credits: 
+## Credit to: 
 + Google Book API  
 + Amazon AWS & SES & RDS  
 + The geolocation search method provided by Meituan Team  
 + mindrot and their jBCrypt Java Library  
 + Lightbend and Play framwork  
++ Edulify.com and their IP-geolocation plugin  
++ freegeoip.net  
++ 
 
 Note: The project is still under development so many issues exist and some of code has not been integrated.  
   
