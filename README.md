@@ -35,7 +35,7 @@ To run the website, these are also essential:
 + Recommand: Nginx server to do the reverse proxy  
 
 ## Pre-Configurations:  
-Please check the following files, search and replace ALL `<To fill`> label with your own server information OR your private key OR Google book API key.  
+Please check the following files, search and replace ALL &lt;To fill&gt; label with your own server information OR your private key OR Google book API key.  
 
 + production.conf  
 + conf/application.conf  
