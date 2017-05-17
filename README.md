@@ -17,7 +17,7 @@ Running Website: <https://www.bookswop.me>
 + [Julia Korcsinszka](mailto:J.Korcsinszka@student.liverpool.ac.uk)  
 + [Ngoc Duy Pham](mailto:N.Pham@student.liverpool.ac.uk)  
 + [Ruohan Su](mailto:R.Su5@student.liverpool.ac.uk)  
-+ [Haoxuan Wang](mailto:H.Wang76@student.liverpool.ac.uk) (Team leader) 
++ [Haoxuan Wang](mailto:H.Wang76@student.liverpool.ac.uk)
 + [Dingfeng Yuan](mailto:D.Yuan3@student.liverpool.ac.uk)
   
 ## Run the website:  
