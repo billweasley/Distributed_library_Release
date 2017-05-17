@@ -8,7 +8,7 @@ We believe this website will be an effective tool for students and lecturers ali
 Running Website: <https://www.bookswop.me>  
 
 ## Team Members && Mailing List:  
-######(The name list is based on alphabetical ordering)   
+###### (The name list is based on alphabetical ordering)   
 
 + [Ionut Brusten](mailto:I.R.Brusten@student.liverpool.ac.uk)  
 + [Huaiyu Dang](mailto:H.Dang2@student.liverpool.ac.uk)  
