@@ -8,15 +8,15 @@ We believe this website will be an effective tool for students and lecturers ali
 Running Website: <https://www.bookswop.me>  
 
 ## Team Members && Mailing List:   
-+ [Ionut Brusten](mailto: I.R.Brusten@student.liverpool.ac.uk)  
-+ [Huaiyu Dang](mailto: H.Dang2@student.liverpool.ac.uk)  
++ [Ionut Brusten](mailto:I.R.Brusten@student.liverpool.ac.uk)  
++ [Huaiyu Dang](mailto:H.Dang2@student.liverpool.ac.uk)  
 + [James Friar](mailto:J.Friar@student.liverpool.ac.uk)  
 + [Chonghao Fu](mailto:C.Fu4@student.liverpool.ac.uk)  
 + [Julia Korcsinszka](mailto:J.Korcsinszka@student.liverpool.ac.uk)  
 + [Ngoc Duy Pham](mailto:N.Pham@student.liverpool.ac.uk)  
 + [Ruohan Su](mailto:R.Su5@student.liverpool.ac.uk)  
-+ [Haoxuan Wang (Team leader)](mailto:H.Wang76@student.liverpool.ac.uk)  
-+ [Dingfeng Yuan](mailto: D.Yuan3@student.liverpool.ac.uk)    
++ [Haoxuan Wang](mailto:H.Wang76@student.liverpool.ac.uk) (Team leader) 
++ [Dingfeng Yuan](mailto:D.Yuan3@student.liverpool.ac.uk)    
 (The name list is based on alphabetical ordering)  
 
 ## Run the website:  
