@@ -49,7 +49,7 @@ Please check the following files, search and replace ALL <To fill> label with yo
 
 Additionally, if you are using Oracle JDK rather than Open JDK, please install Java Cryptography Extension (JCE).  
 
-## Credits:  
+## SCredits:  
 --------------------  
 + Google Book API  
 + Amazon AWS & SES & RDS  
