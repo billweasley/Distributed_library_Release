@@ -1,5 +1,5 @@
 
-## General Description:  ![Travis](https://img.shields.io/travis/rust-lang/rust.svg) 
+## General Description:  ![Travis](https://travis-ci.org/travis-ci/travis-web.svg?branch=master) 
 We are a team of 9 people all studying Internet Computing (Bsc) at University of Liverpool.   
 We came up with the idea and created this website from the ground up, as part of our group project.   
 We aim to provide a free platform to allow people to share their books with fellow book lovers, and in exchange can get new books for themselves.  
