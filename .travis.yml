@@ -7,10 +7,4 @@ secure: "<secure_key_here>"
 script:
   - sbt ++$TRAVIS_SCALA_VERSION test
   - sbt clean compile
-after_success: 
-  - sbt coveralls
-cache:
-  directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
-install: true
+
