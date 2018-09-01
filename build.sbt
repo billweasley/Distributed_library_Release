@@ -22,7 +22,6 @@ resolvers ++= Seq(
   Resolver.url("Edulify Repository", url("https://edulify.github.io/modules/releases/"))(Resolver.ivyStylePatterns)
 )
 
-fork in run := true
 EclipseKeys.preTasks := Seq(compile in Compile)
 EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources)  // Use .class files instead of generated .scala files for views and routes
 EclipseKeys.withSource := true
