@@ -82,7 +82,7 @@ public class ApplicationTest {
 	public void validationPostTest() throws JsonProcessingException, IOException{
 		JsonNode js = (new ObjectMapper()).readTree("{ \"uid\": \"1\" }");
 	    RequestBuilder request = new RequestBuilder().method("PUT").header("X-AUTH-TOKEN", "VgA0Gftdoibxo9NcVbDKK651EwLDkWcLamA82xezn14")
-	           .bodyJson(js).uri(controllers.routes.UserController.update(1).url());
+	           .bodyJson(js).uri(controllers.routes.UserController.update().url());
 	   
 	    Result result = route(request);
 	    assertEquals(result.status(),OK);
