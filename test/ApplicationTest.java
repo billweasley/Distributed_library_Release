@@ -52,7 +52,7 @@ public class ApplicationTest {
     }
 
 */
-	protected Application application;
+	/*protected Application application;
 
 	  @Before
 	  public void startApp() throws Exception {
@@ -87,5 +87,5 @@ public class ApplicationTest {
 	    Result result = route(request);
 	    assertEquals(result.status(),OK);
 
-	}
+	}*/
 }
