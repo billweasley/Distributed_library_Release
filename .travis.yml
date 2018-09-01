@@ -3,8 +3,10 @@ scala:
   - 2.11.7
 jdk:
   - oraclejdk8
-secure: "<secure_key_here>"
 script:
   - sbt ++$TRAVIS_SCALA_VERSION test
-  - sbt clean compile
-
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/scala-$TRAVIS_SCALA_VERSION
+install: true
